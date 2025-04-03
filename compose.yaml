@@ -1,0 +1,29 @@
+services:
+  mysql:
+    container_name: mysql-shop
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: shop
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - shop_network
+    restart: unless-stopped
+  mail-dev:
+    container_name: mail-dev-shop
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+networks:
+  shop_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
